@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import './Contact.css';
 
+const GOOGLE_APPS_SCRIPT_URL =
+  'https://script.google.com/macros/s/AKfycbwSEfpeN83AU8wXJQ2bsDwGHA8UAr05uYnt8EzwxjbKgjlvalhApBXfcd-Ppq2R-lJraw/exec';
+
+const API_KEY = 'CONTACT_FORM_2025';
+
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -8,10 +13,13 @@ const Contact: React.FC = () => {
     email: '',
     message: ''
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -19,16 +27,41 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: '', company: '', email: '', message: '' });
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+
+    const payload = {
+      api_key: API_KEY,
+      name: formData.name,
+      company: formData.company,
+      email: formData.email,
+      message: formData.message
+    };
+
+    try {
+      await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      setIsSubmitted(true);
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        message: ''
+      });
+
+      // Reset success après 5s (comportement original conservé)
+      setTimeout(() => setIsSubmitted(false), 5000);
+
+    } catch (error) {
+      console.error('Erreur envoi formulaire', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -141,8 +174,15 @@ const Contact: React.FC = () => {
                   ) : (
                     <>
                       Envoyer mon message
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                       </svg>
                     </>
                   )}
