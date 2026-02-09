@@ -3,7 +3,7 @@ import './Contact.css';
 
 //const GOOGLE_APPS_SCRIPT_URL =
 //  'https://script.google.com/macros/s/AKfycbwSEfpeN83AU8wXJQ2bsDwGHA8UAr05uYnt8EzwxjbKgjlvalhApBXfcd-Ppq2R-lJraw/exec';
-const GOOGLE_APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbyzr-3B2r3OGOM6LN6JiRBL9igI8g6Jod6PLTfOfuSVt8EIfUQaO4P8I6rlt3RCURboaQ/exec'
+const GOOGLE_APPS_SCRIPT_URL ='https://script.google.com/macros/s/AKfycbxVWo8qN4RXRQ0E0YlrKK78znSAk2M9sHQGcCU4XtmbKib3cjWiEiwHVUmtONFErJg7/exec'
 
 const API_KEY = 'CONTACT_FORM_2025';
 
